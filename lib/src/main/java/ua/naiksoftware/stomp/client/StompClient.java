@@ -245,7 +245,24 @@ public class StompClient {
 
         switch (parser) {
             case NONE:
-                ret = path.equals(dest);
+
+                String[] arrPath = path.split("/");
+                String[] arrDest = dest.split("/");
+
+                int size = Math.min(arrPath.length, arrDest.length);
+                boolean isValid = false;
+                for(int i=0; i<size; i++){
+                    if(arrPath[i].equals(arrDest[i])){
+                        isValid = true;
+                    }else if(arrPath[i].equals("*")){
+                        isValid = true;
+                    }else{
+                        isValid = false;
+                    }
+                }
+
+                ret = isValid;
+                
                 break;
 
             case RABBITMQ:
